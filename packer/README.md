@@ -1,3 +1,3 @@
-Download UPX Packer và đặt vào thư mục tương ứng.
+Download the UPX packer and place it in the respective folder.
 
-Tham khảo: https://github.com/upx/upx
+Reference: https://github.com/upx/upx

@@ -1,46 +1,31 @@
+# THOR-Launcher
 
-# THOR APT Launcher
+Host-base scanning tool using known IOCs and YARA rules to detect malware, apt attack. This tool is a launcher of the THOR-Lite APT Scanner.
 
-Công cụ rà quét máy chủ dựa trên các IOCs đã biết và các quy tắc YARA để phát hiện mã độc, phát hiện tấn công APT. Công cụ được xây dựng dựa trên bộ THOR/THOR-Lite APT Scanner.
+## 1. Launcher features
 
-
-## Các tính năng
-
-- Quét dựa theo các modules
-- Hỗ trợ đa nền tảng: Windows, Linux, MacOSX
-- Mã hóa các IOCs, YARA rules trước khi đóng gói công cụ
-- Cập nhật tự động IOCs và YARA rules từ Nextron Systems GmbH
-- Có thể thêm IOCs và YARA rules tự viết.
-- Tùy chọn xuất báo cáo nhiều định dạng: Text, HTML, JSON, CSV,.v.v..
-- Tùy chỉnh cấu hình mức độ sử dụng CPU, bộ nhớ, kích thước tệp quét,.v.v..
+- Scanning based on modules
+- Cross-platform support: Windows, Linux, MacOSX
+- Encryption IOCs, YARA rules before packing the tool
+- Automatic update of IOCs and YARA rules from Nextron Systems GmbH
+- You can add your own IOCs and YARA rules
+- Multiple report export options: Text, HTML, JSON, CSV, etc..
+- Customize configuration of CPU usage, memory, scan file size, etc..
 - and more..!
 
+## 2. Setting up environment
 
-## THOR và THOR-Lite APT Scanner
+Download and install Python 3: https://www.python.org/downloads. Currently supported Python version 3.6 and above. To verify python installed:
 
-Phiên bản **THOR** là bản thương mại.
-- **Các module:** AtJobs, Autoruns, DNSCache, EnvCheck, Eventlog, Events, Filescan, Firewall, Hosts, HotfixCheck, LSASessions, LoggedIn, Mutex, NetworkSessions, NetworkShares, OpenFiles, Pipes, ProcessCheck, RegistryChecks, Rootkit, SHIMCache, ScheduledTasks, ServiceCheck, UserDir, Users, WMIStartup, DeepDive, Dropzone, MFT
-
-- **Các tính năng:** Amcache, Archive, ArchiveScan, AtJobs, Bifrost2, C2, CPULimit, CheckString, DoublePulsar, EVTX, ExeDecompress, FilenameIOCs, Filescan, GroupsXML, KeywordIOCs, Lnk, LogScan, Prefetch, ProcessConnections, ProcessHandles, RegistryHive, Rescontrol, SHIMCache, SignalHandler, Stix, TeamViewer, ThorDB, Timestomp, VulnerabilityCheck, WER, WMIPersistence, WebdirScan, Yara, Action, Bifrost, DumpScan, Sigma
-
-Phiên bản **THOR-Lite** là bản miễn phí, cần phải đăng ký để có thể download. Bản THOR-Lite sẽ bị hạn chế hơn bản THOR. Chỉ còn:
-- **Các module:** Filescan, ProcessCheck, Autoruns
-- **Các tính năng:** Action, Bifrost, C2, CPULimit, CheckString, DumpScan, FilenameIOCs, KeywordIOCs, LogScan, ProcessConnections, ProcessHandles, Rescontrol, ThorDB, Yara
-
-
-## Cài đặt môi trường ứng dụng
-Download và cài đặt Python 3 tại: https://www.python.org/downloads. Hiện tại hỗ trợ phiên bản Python 3.6 trở lên.
-
-Kiểm tra vị trí cài đặt Python 3 trên máy:
 ```bash
 # Windows
 $ where python
   
-# Linux và MacOSX
+# Linux or MacOSX
 $ which python3
 ```
 
-Tạo Virtual Python Environment: Nhằm mục đích chạy ứng dụng Python của chúng ta trong một môi trường an toàn, cô lập với hệ thống thật, tránh được các xung đột hay lỗi giữa các phiên bản phần mềm, thư viện.
+Create virtual python environment:
 
 ```bash
 $ pip3 install virtualenv
@@ -49,34 +34,39 @@ $ pip3 install virtualenv
 $ mkdir my-project & cd my-project
 $ virtualenv -p c:\path\to\python.exe venv
 
-# Linux và MacOSX
+# Linux or MacOSX
 $ mkdir my-project && cd my-project
 $ virtualenv -p /path/to/python3 venv
 ```
 
-Kích hoạt Virtual Python Environment:
+Active virtual python environment:
+
 ```bash
 # Windows:
 $ venv\Scripts\activate
 
-# Linux và MacOS:
+# Linux or MacOS:
 $ source venv/bin/activate
 ```
 
-Sao chép mã nguồn:
+Clone THOR-Launcher:
+
 ```bash
-$ git clone https://github.com/hailehong95/THOR-Launcher.git
+$ git clone https://github.com/hailehong95/thor-launcher.git
 ```
 
-Cài đặt các gói phụ thuộc:
+Install dependencies packages:
+
 ```bash
 (venv) $ pip install -r requirements.txt
 ```
-## Đóng gói ứng dụng
 
-### THOR Utility
+## 3. Building THOR-Launcher
 
-Là tiện ích dùng để đóng gói bộ **THOR/THOR-Lite** thành một tệp thực thi duy nhất, thuận tiện cho việc phân phối đến các client khi rà quét.
+### 3.1. THOR Utility
+
+A utility used to packing the **THOR-Lite** set into a single executable, convenient for distribution to clients when scanning.
+
 ```bash
 (venv) $ python thor-util.py
 Usage: thor-util.py [OPTIONS] COMMAND [ARGS]...
@@ -102,78 +92,53 @@ Commands:
   version    Show Utility version
 ```
 
-Giải thích một số command:
-- **extract**: Giải nén bộ **THOR** phù hợp theo hệ điều hành đang chạy.
-- **license**: Thêm giấy phép hoạt động của bộ **THOR**.
-- **rsakey**: Thêm khóa mật mã RSA vào bộ **THOR**. Dùng để mã hóa các tệp báo cáo sau khi rà quét xong.
-- **signature**: Mã hóa các YARA rules tùy chỉnh tự viết bằng khóa RSA của THOR sau đó thêm vào bộ **THOR**.
-- **update**: Cập nhật các signature từ Nextron Systems GmbH.
-- **upgrade**: Cập nhật signature và bộ **THOR** từ Nextron Systems GmbH.
-- **remove**: Xóa các thư mục, tệp tin không cần thiết trong bộ **THOR** trước khi đóng gói.
-- **rename**: Đổi tên một số tệp tin chương trình trong bộ **THOR** trước khi đóng gói.
-- **keygen**: Sinh cặp khóa RSA. Khóa này dùng để mã hóa các tệp báo cáo.
-- **make**: Tự động tất cả các bước cần thiết để có thể tạo một bộ **THOR** trước khi đóng gói ứng dụng. Mặc định sẽ tạo bộ **THOR** phiên bản 64-bits.
-- **build**: Đóng gói ứng dụng, tạo một tệp thực thi duy nhất.
-- **clean**: Xóa bộ **THOR** và các tệp liên quan đã giải nén.
+### 3.2. THOR-Launcher packing up steps
 
+1. Get **THOR-Lite**: request to **Nextron Systems GmbH**: https://www.nextron-systems.com/thor-lite/download. Then wait for them to send the download link with the license key file via email. Download and save the THOR (**.zip**) to [**./thor_packs/**](./thor_packs) directory. Similarly, the license file (***.lic**) is saved in the [**./thor_license/**](./thor_license) directory
 
-### THOR APT Scanner
-Thực chất là một **CLI Launcher** sẽ gọi các **THOR binaries** để rà quét. Tệp thực thi cuối cùng sẽ được nhúng các binaries này và các iocs, yara rules kèm với bộ thông dịch Python.
+    - **YARA Rules**: Add your rules to the [**./signatures/**](./signatures) directory
 
-```bash
-$ thor-apt-scanner.exe
-Usage: thor-apt-scanner.exe [OPTIONS] COMMAND [ARGS]...
+    - **UPX Packer** (optional): Use **UPX** for compression as well as an extra step of protecting the executable. Download: https://github.com/upx/upx/releases and put in the corresponding directory in [**./packer/**](./packer)
 
-  A CLI Launcher for the THOR APT Scanner by HaiLH
+2. Generate RSA key pair
 
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  all      SCAN ALL available modules
-  auto     SCAN Autoruns: Auto-starting programs
-  file     SCAN Files: Scan a specific file path
-  proc     SCAN Process: Process images and connections
-  version  SHOW THOR APT Scanner version
-```
-### Các bước đóng gói ứng dụng
-
-1. Nhận **THOR/THOR-Lite**: Gửi yêu cầu đến **Nextron Systems GmbH** tại: https://www.nextron-systems.com/thor-lite/download. Sau đó đợi họ gửi link download kèm tệp license key qua email. Tải về và lưu bộ THOR (**.zip**) vào thư mục: [**./thor_packs/**](./thor_packs). Tương tự tệp license (***.lic**) lưu vào thư mục: [**./thor_license/**](./thor_license)
-
-    **YARA Rules**: Thêm các rule tự viết vào thư mục: [**./signatures/**](./signatures)
-
-    **UPX Packer** (tùy chọn): Sử dụng **UPX** để nén cũng như là thêm một bước bảo vệ tệp thực thi. Download tại: https://github.com/upx/upx/releases và đặt vào thư mục tương ứng trong: [**./packer/**](./packer)
-
-2. Sinh cặp khóa RSA (tùy chọn)
     ```bash
     (venv) $ python thor-util.py keygen --keyname "key" --length 4096
     ```
     ![image info](./assets/keygen.png)
 
-3. Tạo bộ **THOR** tự động.
+3. Automatically create the **THOR** set
+
     ```bash
     (venv) $ python thor-util.py make
     ```
     ![image info](./assets/make.png)
 
+4. Packing **THOR APT Scanner**
 
-4. Đóng gói **THOR APT Scanner**.
     ```bash
     (venv) $ python thor-util.py build
     ```
     ![image info](./assets/build.png)
 
+5. Running THOR-Launcher
 
-5. Thử nghiệm
     ```bash
     $ thor-apt-scanner.exe
     ```
     ![image info](./assets/usage.png)
 
-    Sau khi hoàn tất rà quét, các tệp báo cáo sẽ được mã hóa và nén lại thành một tệp ***.zip**.
+    - A **THOR-Launcher** will invoke the **THOR binaries** to scan. The final executable will have these binaries embedded and the iocs and yara rules included with the Python interpreter.
+    - After scanning is completed, the report files will be encrypted and compressed into a ***.zip** file.
 
-## Các hệ thống đã chạy thử nghiệm
+## 4. Systems that have been tested
 
 - Microsoft Windows: 7, 8/8.1, 10, 2012, 2016, 2019
 - Linux: Ubuntu 18.04 LTS, Ubuntu 20.04 LTS
 - MacOSX: 10.16 (Big Sur)
+
+## 5. Important
+
+- THOR-Launcher as a project for learning purposes
+- Do not use it for commercial purposes
+- Please read the "THOR Lite End User License Agreement" inside Thor-Lite packs
