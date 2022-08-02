@@ -141,6 +141,7 @@ def file_task(path):
         if os.path.exists(path):
             thor_scanner_binary = get_thor_scanner_bin()
             if os.path.isfile(thor_scanner_binary):
+                # I hard-code the rsa public key file name, replace it with your key! =))
                 strCmdThorScanFiles = thor_scanner_binary + " --silent --jsonfile --encrypt --pubkey hailh-rsa-public.pem --fsonly --path"
                 if get_platform() != 'windows':
                     strCmdThorScanFiles = './' + strCmdThorScanFiles
@@ -174,6 +175,7 @@ def proc_task():
             return
         thor_scanner_binary = get_thor_scanner_bin()
         if os.path.isfile(thor_scanner_binary):
+            # I hard-code the rsa public key file name, replace it with your key! =))
             strCmdThorScanProc = thor_scanner_binary + " --silent --jsonfile --noautoruns --nofilesystem --encrypt --pubkey hailh-rsa-public.pem"
             if get_platform() != 'windows':
                 strCmdThorScanProc = './' + strCmdThorScanProc
@@ -204,6 +206,7 @@ def auto_task():
         
         thor_scanner_binary = get_thor_scanner_bin()
         if os.path.isfile(thor_scanner_binary):
+            # I hard-code the rsa public key file name, replace it with your key! =))
             strCmdThorScanAutoruns = thor_scanner_binary + " --silent --jsonfile --nofilesystem --noprocs --encrypt --pubkey hailh-rsa-public.pem"
             if get_platform() != 'windows':
                 strCmdThorScanAutoruns = './' + strCmdThorScanAutoruns
@@ -234,6 +237,7 @@ def default_task():
         
         thor_scanner_binary = get_thor_scanner_bin()
         if os.path.isfile(thor_scanner_binary):
+            # I hard-code the rsa public key file name, replace it with your key! =))
             strCmdThorScanAllModules = thor_scanner_binary + " --silent --jsonfile --encrypt --pubkey hailh-rsa-public.pem"
             if get_platform() != 'windows':
                 strCmdThorScanAllModules = './' + strCmdThorScanAllModules
